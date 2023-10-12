@@ -1,52 +1,75 @@
-
 const btn = document.querySelector('.btn');
 
-btn.addEventListener('click', e => {
-
+btn.addEventListener('click', (e) => {
   e.preventDefault();
 
-let nameInput = document.querySelector('#name').value;
-let emailInput= document.querySelector('#email').value;
-
+  const nameInput = document.querySelector('#name').value;
+  const emailInput = document.querySelector('#email').value;
 
   const objInput = {
-    name: nameInput ,
-    email: emailInput
+    name: nameInput,
+    email: emailInput,
   };
 
-axios.post(`https://crudcrud.com/api/1c5b2d767b394f5abba752fe5ef821dc
-/appointmentData`, objInput)
+  axios
+    .post(`https://crudcrud.com/api/724e0e080acc49fea4ca53567d0f23d8/appointmentData`, objInput)
+    .then((res) => {
+      showOutput(res.data);
+      console.log(res);
+    })
+    .catch((err) => {
+      console.error(err);
+    });
 
-.then((res)=>{
-    showOutput(res.data)
-    console.log(res)
-})
-.catch((err)=> {
-    console.error(err)
-})
-
-document.querySelector('#name').value = '';
-document.querySelector('#email').value = '';
+  document.querySelector('#name').value = '';
+  document.querySelector('#email').value = '';
 });
 
-  showOutput = (res)=>{
-    document.getElementById('users').innerHTML+=`&bull; ${res.name} - ${res.email} <button class="dlt-button">delete</button> <button class="edit-button">edit </button><br>`
-  }
+ showOutput= (res)=> {
+    // here i named class as red._id so that i can delete the whole user using that class
 
-  //console.log(objInput);
+    document.getElementById('users').innerHTML+=`<p class="${res._id}">&bull; ${res.name} - ${res.email}
+    <button class="dlt-button" data-id="${res._id}">delete</button>
+    <button class="edit-button" >edit</button></p>`;
+    // here i used data-id res._id to identify which users delete buttonn is clicked
 
-  getData = ()=> {
-    axios.get(`https://crudcrud.com/api/1c5b2d767b394f5abba752fe5ef821dc
-/appointmentData`)
-      .then((res) => {
-        res.data.forEach(entry => {
-          showOutput(entry);
-        });
-      })
-      .catch((err) => {
-        console.error(err);
+  const deleteButtons = document.querySelectorAll('.dlt-button');
+  deleteButtons.forEach((deleteButton) => {
+    deleteButton.addEventListener('click', () => {
+      const userId = deleteButton.getAttribute('data-id');
+      deleteOutput(userId);
+    });
+  });
+}
+
+getUser = () => {
+  axios
+    .get(`https://crudcrud.com/api/724e0e080acc49fea4ca53567d0f23d8/appointmentData`)
+    .then((res) => {
+      res.data.forEach((entry) => {
+        showOutput(entry);
       });
-  }
-  
-  getData()
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+};
+
+getUser();
+
+ deleteOutput = (userId) => {
+  axios
+    .delete(`https://crudcrud.com/api/724e0e080acc49fea4ca53567d0f23d8/appointmentData/${userId}`)
+
+    .then(() => {
+      // using userId to remove the element from screen
+      let elementToDelete = document.querySelector(`[class="${userId}"]`);
+        elementToDelete.parentElement.removeChild(elementToDelete);
+      
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+}
+
 

@@ -12,7 +12,7 @@ btn.addEventListener('click', (e) => {
   };
 
   axios
-    .post(`https://crudcrud.com/api/724e0e080acc49fea4ca53567d0f23d8/appointmentData`, objInput)
+    .post(`https://crudcrud.com/api/5270a048dc3147d9a143c634a1c674b8/appointmentData`, objInput)
     .then((res) => {
       showOutput(res.data);
       console.log(res);
@@ -30,7 +30,7 @@ btn.addEventListener('click', (e) => {
 
     document.getElementById('users').innerHTML+=`<p class="${res._id}">&bull; ${res.name} - ${res.email}
     <button class="dlt-button" data-id="${res._id}">delete</button>
-    <button class="edit-button" >edit</button></p>`;
+    <button class="edit-button" data-id="${res._id}">edit</button></p>`;
     // here i used data-id res._id to identify which users delete buttonn is clicked
 
   const deleteButtons = document.querySelectorAll('.dlt-button');
@@ -40,11 +40,26 @@ btn.addEventListener('click', (e) => {
       deleteOutput(userId);
     });
   });
+
+  // here i  have made an edit button with just adding the data in placeholder and then removing it from the array and then re-entering the data instead of using put/patch
+  
+  const editButtons = document.querySelectorAll('.edit-button');
+  editButtons.forEach((editButton) => {
+    editButton.addEventListener('click', () => {
+      const userId = editButton.getAttribute('data-id');
+
+      deleteOutput(userId);
+      document.querySelector('#name').value = res.name;
+      document.querySelector('#email').value = res.email;
+    });
+  });
+
+  
 }
 
 getUser = () => {
   axios
-    .get(`https://crudcrud.com/api/724e0e080acc49fea4ca53567d0f23d8/appointmentData`)
+    .get(`https://crudcrud.com/api/5270a048dc3147d9a143c634a1c674b8/appointmentData`)
     .then((res) => {
       res.data.forEach((entry) => {
         showOutput(entry);
@@ -59,7 +74,7 @@ getUser();
 
  deleteOutput = (userId) => {
   axios
-    .delete(`https://crudcrud.com/api/724e0e080acc49fea4ca53567d0f23d8/appointmentData/${userId}`)
+    .delete(`https://crudcrud.com/api/5270a048dc3147d9a143c634a1c674b8/appointmentData/${userId}`)
 
     .then(() => {
       // using userId to remove the element from screen

@@ -12,7 +12,7 @@ btn.addEventListener('click', (e) => {
   };
 
   axios
-    .post(`https://crudcrud.com/api/5270a048dc3147d9a143c634a1c674b8/appointmentData`, objInput)
+    .post(`https://crudcrud.com/api/0741dda395d14ce697a87b129864de56/appointmentData`, objInput)
     .then((res) => {
       showOutput(res.data);
       console.log(res);
@@ -42,15 +42,14 @@ btn.addEventListener('click', (e) => {
   });
 
   // here i  have made an edit button with just adding the data in placeholder and then removing it from the array and then re-entering the data instead of using put/patch
-  
+
   const editButtons = document.querySelectorAll('.edit-button');
   editButtons.forEach((editButton) => {
     editButton.addEventListener('click', () => {
       const userId = editButton.getAttribute('data-id');
-
+      editOutput(res); 
       deleteOutput(userId);
-      document.querySelector('#name').value = res.name;
-      document.querySelector('#email').value = res.email;
+  
     });
   });
 
@@ -59,7 +58,7 @@ btn.addEventListener('click', (e) => {
 
 getUser = () => {
   axios
-    .get(`https://crudcrud.com/api/5270a048dc3147d9a143c634a1c674b8/appointmentData`)
+    .get(`https://crudcrud.com/api/0741dda395d14ce697a87b129864de56/appointmentData`)
     .then((res) => {
       res.data.forEach((entry) => {
         showOutput(entry);
@@ -74,7 +73,7 @@ getUser();
 
  deleteOutput = (userId) => {
   axios
-    .delete(`https://crudcrud.com/api/5270a048dc3147d9a143c634a1c674b8/appointmentData/${userId}`)
+    .delete(`https://crudcrud.com/api/0741dda395d14ce697a87b129864de56/appointmentData/${userId}`)
 
     .then(() => {
       // using userId to remove the element from screen
@@ -88,3 +87,7 @@ getUser();
 }
 
 
+ editOutput= (userDetails)=> {
+  document.querySelector('#name').value = userDetails.name;
+  document.querySelector('#email').value = userDetails.email;
+}

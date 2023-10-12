@@ -35,9 +35,9 @@ document.querySelector('#email').value = '';
 
   //console.log(objInput);
 
-  function getData() {
+  getData = ()=> {
     axios.get(`https://crudcrud.com/api/1c5b2d767b394f5abba752fe5ef821dc
-    /appointmentData`)
+/appointmentData`)
       .then((res) => {
         res.data.forEach(entry => {
           showOutput(entry);

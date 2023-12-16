@@ -58,6 +58,7 @@
     color: #fff;
     border-radius: 5px;
     margin: 5px 0;
+    cursor: pointer;
   }
   
   .btn:hover {
@@ -74,4 +75,12 @@
     color: #fff;
     padding: 5px;
     margin: 5px;
+  }
+  .dlt-button, .edit-button {
+    padding: 5px 15px;
+    background-color: #333;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
   }

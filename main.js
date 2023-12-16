@@ -1,5 +1,5 @@
 const btn = document.querySelector('.btn');
-
+const URL = `http://localhost:3000/user`;
 btn.addEventListener('click', (e) => {
   e.preventDefault();
 
@@ -12,7 +12,7 @@ btn.addEventListener('click', (e) => {
   };
 
   axios
-    .post(`https://crudcrud.com/api/0741dda395d14ce697a87b129864de56/appointmentData`, objInput)
+    .post(`${URL}`, objInput)
     .then((res) => {
       showOutput(res.data);
       console.log(res);
@@ -26,12 +26,10 @@ btn.addEventListener('click', (e) => {
 });
 
  showOutput= (res)=> {
-    // here i named class as red._id so that i can delete the whole user using that class
 
-    document.getElementById('users').innerHTML+=`<p class="${res._id}">&bull; ${res.name} - ${res.email}
-    <button class="dlt-button" data-id="${res._id}">delete</button>
-    <button class="edit-button" data-id="${res._id}">edit</button></p>`;
-    // here i used data-id res._id to identify which users delete buttonn is clicked
+    document.getElementById('users').innerHTML+=`<p class="${res.id}">&bull; ${res.name} - ${res.email}
+    <button class="dlt-button" data-id="${res.id}">delete</button>
+    <button class="edit-button" data-id="${res.id}">edit</button></p>`;
 
   const deleteButtons = document.querySelectorAll('.dlt-button');
   deleteButtons.forEach((deleteButton) => {
@@ -40,8 +38,6 @@ btn.addEventListener('click', (e) => {
       deleteOutput(userId);
     });
   });
-
-  // here i  have made an edit button with just adding the data in placeholder and then removing it from the array and then re-entering the data instead of using put/patch
 
   const editButtons = document.querySelectorAll('.edit-button');
   editButtons.forEach((editButton) => {
@@ -53,12 +49,11 @@ btn.addEventListener('click', (e) => {
     });
   });
 
-  
 }
 
 getUser = () => {
   axios
-    .get(`https://crudcrud.com/api/0741dda395d14ce697a87b129864de56/appointmentData`)
+    .get(`${URL}`)
     .then((res) => {
       res.data.forEach((entry) => {
         showOutput(entry);
@@ -73,7 +68,7 @@ getUser();
 
  deleteOutput = (userId) => {
   axios
-    .delete(`https://crudcrud.com/api/0741dda395d14ce697a87b129864de56/appointmentData/${userId}`)
+    .delete(`${URL}/${userId}`)
 
     .then(() => {
       // using userId to remove the element from screen
